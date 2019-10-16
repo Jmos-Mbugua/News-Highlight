@@ -15,12 +15,14 @@ apiKey = None
 
 # getting the sources url
 base_url = None
-basetop_url = None
+articles_base_url = None
+
 
 def configure_request(app):
-    global apiKey, base_url, basetop_url
+    global apiKey, base_url,articles_base_url
     apiKey = app.config['NEWS_API_KEY']
     base_url = app.config['SOURCES_URL']
+    articles_base_url = app.config['NYT_ARTICLES_URL']
 
 
 def get_sources(category):
@@ -33,7 +35,7 @@ def get_sources(category):
         get_sources_data = url.read()
         get_sources_response = json.loads(get_sources_data)
         
-        print(get_sources_response)
+        # print(get_sources_response)
         
         sources_results = None
         
@@ -72,11 +74,12 @@ def process_results(sources_list):
     return sources_results
         
         
-def get_headlines(category):
+def get_headlines(sources):
     '''
     function that gets the json response to our url request
     '''
-    get_headlines_url = basetop_url.format(category, apiKey)
+    get_headlines_url = articles_base_url.format(sources,apiKey)
+    print(get_headlines_url)
     
     with urllib.request.urlopen(get_headlines_url) as url:
         get_headlines_data = url.read()
@@ -89,10 +92,11 @@ def get_headlines(category):
         
         if get_headlines_response['articles']:
             articles_results_list = get_headlines_response['articles']
-            articles_results = process_headlines_results(articles_results_list)
+            headlines_results = process_headlines_results(articles_results_list)
             
             
     return headlines_results
+    print (headlines_results)
 
 def process_headlines_results(headlines_list):
     '''
@@ -107,6 +111,7 @@ def process_headlines_results(headlines_list):
     
     headlines_results = []
     for headlines_item in headlines_list:
+        id = headlines_item.get('id')
         author = headlines_item.get('author')
         title = headlines_item.get('title')
         description = headlines_item.get('description')
@@ -115,10 +120,11 @@ def process_headlines_results(headlines_list):
         publishedAt = headlines_item.get('publishedAt')
         content = headlines_item.get('content')
         
-        headlines_object = Headlines(author, title, description, url, urlToImage, publishedAt, content)
+        headlines_object = Headlines(id, author, title, description, url, urlToImage, publishedAt, content)
         headlines_results.append(headlines_object)
             
-    return headlines_results
+    return headlines_results    
+    print(headlines_results)
         
         
         
