@@ -15,7 +15,8 @@ class Headlines:
     '''
     sources class to define sources objects
     '''
-    def __init__(self, author, title, description, url, urlToImage, publishedAt, content):
+    def __init__(self,id, author, title, description, url, urlToImage, publishedAt, content):
+        self.id = id
         self.author = author
         self.title = title
         self.description = description
