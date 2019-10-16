@@ -4,9 +4,9 @@ class Config:
     '''
     General Configuration parent class
     '''
-    TOP_HEADLINES_URL = 'https://newsapi.org/v2/top-headlines?category={}&apiKey={}'
+    # TOP_HEADLINES_URL = 'https://newsapi.org/v2/top-headlines?category={}&apiKey={}'
     SOURCES_URL = 'https://newsapi.org/v2/sources?category={}&apiKey={}'
-    NYT_ARTICLES_URL = 'https://newsapi.org/v2/everything?domains=wsj.com,nytimes.com&apiKey={}'
+    NYT_ARTICLES_URL = 'https://newsapi.org/v2/everything?sources={}&apiKey={}'
     
     NEWS_API_KEY = os.environ.get('NEWS_API_KEY')
     # SECRET_KEY = os.environment.get('SECRET_KEY')
